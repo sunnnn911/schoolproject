@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>학교 홈페이지</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      height: 100%;
+      overflow: auto;
+    }
+
+    header {
+      height: 10vh;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      background-color: #f0f0f0;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .menu-button {
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      height: 24px;
+    }
+
+    .menu-button div {
+      width: 25px;
+      height: 3px;
+      background-color: black;
+    }
+
+    #backIcon {
+      position: absolute;
+      right: 10px; /* 오른쪽 정렬 */
+      font-size: 24pt;
+      cursor: pointer;
+      display: none;
+    }
+
+    .title-text {
+      font-size: 24pt;
+      color: #003399;
+      font-weight: bold;
+      text-align: center;
+      flex-grow: 1;
+    }
+
+    .menu {
+      display: none;
+      position: fixed;
+      top: 10vh;
+      left: 0;
+      background-color: white;
+      width: 200px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    .menu ul {
+      list-style: none;
+      padding: 10px;
+      margin: 0;
+    }
+
+    .menu ul li {
+      padding: 8px 0;
+      border-bottom: 1px solid #ddd;
+      cursor: pointer;
+    }
+
+    #main-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .section {
+      border-top: 1px solid #ccc;
+      padding: 10px;
+    }
+
+    .section img {
+      width: 100%;
+      object-fit: contain;
+    }
+
+    .notice-title {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .notice-title span {
+      margin-left: 5px;
+      font-weight: normal;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    table, th, td {
+      border: 1px solid black;
+    }
+
+    th, td {
+      text-align: center;
+      padding: 5px;
+    }
+
+    .qa-table td:first-child {
+      font-weight: bold;
+      width: 50px;
+    }
+
+    /* 애니메이션 효과 */
+    @keyframes fadeIn {
+      0%   { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.35s ease-out;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="menu-button" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div class="title-text" id="title">에듀아띠고</div>
+    <div id="backIcon" onclick="goHome()">←</div>
+  </header>
+
+  <div class="menu" id="menu">
+    <ul>
+      <li onclick="loadPage('학교소개')">학교소개</li>
+      <li onclick="loadPage('교육과정')">교육과정</li>
+      <li onclick="loadPage('공지사항')">공지사항</li>
+      <li onclick="loadPage('학사일정')">학사일정</li>
+      <li onclick="loadPage('입학안내')">입학안내</li>
+      <li onclick="loadPage('Q&A')">Q&A</li>
+    </ul>
+  </div>
+
+  <div id="main-content">
+    <div class="section">
+      <img src="images/학교사진.png" alt="학교 사진">
+    </div>
+    <div class="section">
+      <div class="notice-title" onclick="loadPage('공지사항')">공지사항 <span>&gt;</span></div>
+      <img src="images/공지사항.png" alt="공지사항 사진">
+    </div>
+    <div class="section" style="height: calc(300%);">
+      <div class="notice-title">학교 급훈</div>
+      <img src="images/학교급훈.png" alt="학교 급훈 사진">
+    </div>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById("menu");
+      menu.style.display = (menu.style.display === "block") ? "none" : "block";
+    }
+
+    document.addEventListener('click', function(event) {
+      const menu = document.getElementById('menu');
+      const button = document.querySelector('.menu-button');
+      if (!menu.contains(event.target) && !button.contains(event.target)) {
+        menu.style.display = 'none';
+      }
+    });
+
+    function loadPage(title) {
+      const content = document.getElementById("main-content");
+      const menu = document.getElementById("menu");
+      const backIcon = document.getElementById("backIcon");
+
+      menu.style.display = "none";
+      backIcon.style.display = "block";
+      document.getElementById("title").innerText = title;
+
+      if (title === "학교소개") {
+        content.innerHTML = `
+          <div class="section">
+            <div class="notice-title">학교 급훈</div>
+            <img src="images/학교급훈.png" alt="학교 급훈 사진">
+          </div>
+          <div class="section">
+            <div class="notice-title">1층</div>
+            <img src="images/1층.png" alt="1층 사진">
+            <div class="description">설명 부분</div>
+          </div>
+          <div class="section">
+            <div class="notice-title">2층</div>
+            <img src="images/2층.png" alt="2층 사진">
+            <div class="description">설명 부분</div>
+          </div>
+          <div class="section">
+            <div class="notice-title">3층</div>
+            <img src="images/3층.png" alt="3층 사진">
+            <div class="description">설명 부분</div>
+          </div>
+        `;
+      } else if (title === "교육과정") {
+        content.innerHTML = `
+          <div class="section">
+            <img src="images/교육과정.png" alt="교육과정 사진">
+          </div>
+        `;
+      } else if (title === "공지사항") {
+        content.innerHTML = `
+          <table>
+            <tr>
+              <th>순번</th><th>제목</th><th>작성자</th><th>등록일</th>
+            </tr>
+            ${[...Array(7)].map((_, i) => `
+              <tr>
+                <td>표에서 ${i+1}번째 항, 1열</td>
+                <td>표에서 ${i+1}번째 항, 2열</td>
+                <td>표에서 ${i+1}번째 항, 3열</td>
+                <td>표에서 ${i+1}번째 항, 4열</td>
+              </tr>`).join("")}
+          </table>
+        `;
+      } else if (title === "학사일정") {
+        content.innerHTML = `
+          <div class="section">
+            <img src="images/학사일정.png" alt="학사일정 사진">
+          </div>
+        `;
+      } else if (title === "입학안내") {
+        content.innerHTML = `
+          <div class="section">
+            <img src="images/입학안내.png" alt="입학안내 사진">
+          </div>
+        `;
+      } else if (title === "Q&A") {
+        const qaList = [
+          ["Q.", "학교 급식은 어떻게 나오나요?"],
+          ["A.", "매일 아침 홈페이지에 올라와요."],
+          ["Q.", "동아리는 어떤 게 있나요?"],
+          ["A.", "음악, 과학, 체육 등 다양하게 있어요."],
+          ["Q.", "등교 시간은 몇 시인가요?"],
+          ["A.", "오전 8시 10분까지 도착해야 해요."],
+          ["Q.", "전학 신청은 어떻게 하나요?"],
+          ["A.", "행정실에 문의하시면 됩니다."]
+        ];
+
+        content.innerHTML = `
+          <table class="qa-table">
+            ${qaList.map(([type, text]) => `
+              <tr>
+                <td>${type}</td>
+                <td>${text}</td>
+              </tr>`).join("")}
+          </table>
+        `;
+      }
+
+      // 애니메이션 효과
+      content.classList.remove("fade-in");
+      void content.offsetWidth;
+      content.classList.add("fade-in");
+    }
+
+    function goHome() {
+      const backIcon = document.getElementById("backIcon");
+      backIcon.style.display = "none";
+      document.getElementById("title").innerText = "에듀아띠고";
+
+      const content = document.getElementById("main-content");
+      content.innerHTML = `
+        <div class="section">
+          <img src="images/학교사진.png" alt="학교 사진">
+        </div>
+        <div class="section">
+          <div class="notice-title" onclick="loadPage('공지사항')">공지사항 <span>&gt;</span></div>
+          <img src="images/공지사항.png" alt="공지사항 사진">
+        </div>
+        <div class="section" style="height: calc(300%);">
+          <div class="notice-title">학교 급훈</div>
+          <img src="images/학교급훈.png" alt="학교 급훈 사진">
+        </div>
+      `;
+
+      content.classList.remove("fade-in");
+      void content.offsetWidth;
+      content.classList.add("fade-in");
+    }
+  </script>
+</body>
+</html>
